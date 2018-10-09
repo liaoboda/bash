@@ -1,0 +1,45 @@
+#!/bin/bash
+declare -a i
+declare -a dev_list
+declare -a dev
+read -p 'zpool action:'  action
+read -p 'zpool option:'  option
+read -p 'zpool name:'  name
+read -p 'zpool Raid:'  raid
+
+i=($(lsscsi -g -t -s|grep disk |grep sas |awk '{print $4}'))
+#echo ${i[@]:3:10}
+hdnum=${#i[@]}
+for k in "${!i[@]}"
+ do
+  dev_list[k]="${i[k]}"
+  printf "%s\t%s\n" "$k" "${i[k]}"
+ done
+#echo "${!dev_list[@]}"
+#"${dev_list[@]}"
+#echo ${dev_list[5]}
+read -p 'choose the number you want to add to the zpool:' -a numbers
+#echo ${hddnum[1]}
+#echo ${#hddnum}
+#echo "${numbers[1]}"
+#echo "${numbers[0]}"
+for m in "${numbers[@]}"
+  do 
+   if [[ $m =~ "-" ]]
+   then
+    #echo "$m contain -"
+    start_num=$(echo "$m "|awk -F - '{print $1}')
+    end_num=$(echo "$m "|awk -F - '{print $2}')
+    # echo "$start_num"
+    # echo "$end_num"
+      for ((j=$start_num; j<=$end_num; j++))
+       do
+        dev+="${dev_list[$j]} "
+       done
+   else
+     dev+="${dev_list[$m]} "
+   fi
+   echo -n  "${dev[@]}"
+  done
+/usr/sbin/zpool $action $option $name $raid ${dev[@]}
+
