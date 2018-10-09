@@ -1,0 +1,23 @@
+#!/bin/bash
+read -p  'input the number:'  -a numbers
+
+#echo "${numbers[1]}"
+#echo "${numbers[0]}"
+for m in "${numbers[@]}"
+  do 
+   if [[ $m =~ "-" ]]
+   then
+    #echo "$m contain -"
+    start_num=$(echo "$m "|awk -F - '{print $1}')
+    end_num=$(echo "$m "|awk -F - '{print $2}')
+    # echo "$start_num"
+    # echo "$end_num"
+      for ((j=$start_num; j<=$end_num; j++))
+       do
+        echo  -n "$j"
+       done
+    
+   else
+     echo "no"
+   fi
+  done

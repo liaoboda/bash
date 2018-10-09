@@ -1,0 +1,12 @@
+#!/bin/bash
+declare -a i 
+i=($(lsscsi -g -t -s|grep disk |grep sas |awk '{print $4}'))
+#echo ${i[@]:3:10}
+hdnum=${#i[@]}
+for k in "${!i[@]}" 
+ do 
+  printf "%s\t%s\n" "$k" "${i[k]}"
+ done
+printf "choose the number you want to add to the zpool:\n"
+read hddnum
+echo "$hddnum"

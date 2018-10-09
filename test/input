@@ -1,0 +1,12 @@
+#!/bin/bash
+read -p 'zpool action:'  action
+read -p 'zpool option:'  option
+read -p 'zpool name:'  name
+read -p 'zpool Raid:'  raid
+echo $action
+echo $option
+echo $name
+echo $raid
+#echo ${hddnum[1]}
+#echo ${#hddnum}
+
